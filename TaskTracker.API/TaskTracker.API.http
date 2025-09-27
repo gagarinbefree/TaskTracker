@@ -1,8 +1,7 @@
 @TaskTracker.API_HostAddress = http://localhost:8080
 
-GET {{TaskTracker.API_HostAddress}}/weatherforecast/
+GET {{TaskTracker.API_HostAddress}}/token/
 Accept: application/json
-
 
 GET {{TaskTracker.API_HostAddress}}/tsk/
 Accept: application/json

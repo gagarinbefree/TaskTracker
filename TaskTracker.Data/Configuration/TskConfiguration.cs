@@ -36,7 +36,6 @@ namespace TaskTracker.Data.Configuration
                 .WithOne(f => f.SourceTask)
                 .HasForeignKey(f => f.SourceTaskId)
                 .OnDelete(DeleteBehavior.Cascade);
-
         }
     }
 }

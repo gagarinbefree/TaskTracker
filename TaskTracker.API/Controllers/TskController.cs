@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaskTracker.Application.Tasks.Commands;
 using TaskTracker.Application.Tasks.Queries;
@@ -9,6 +9,7 @@ namespace TaskTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TskController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -24,6 +25,14 @@ namespace TaskTracker.API.Controllers
             IEnumerable<Tsk> result = await _mediator.Send(request, token);
 
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Tsk[]>> Get([FromQuery] GetTskByIdQuery request, CancellationToken token)
+        {
+            Tsk? result = await _mediator.Send(request, token);
+
+            return result != null ? Ok(result) : NotFound(request);
         }
 
         [HttpPost]

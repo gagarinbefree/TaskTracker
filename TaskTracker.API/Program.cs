@@ -1,8 +1,9 @@
 using MediatR;
-using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 using TaskTracker.Application.Tasks.Commands;
 using TaskTracker.Application.Tasks.Queries;
 using TaskTracker.Data;
@@ -17,34 +18,74 @@ namespace TaskTracker.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseNpgsql(builder.Configuration.GetConnectionString("Db")));
+            builder.Services.AddSwaggerGen(options => {
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    Description = "Get JWT security key from GET /api/token"
+                });
 
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
+            });
+            
+            builder.Services.AddDbContext<ServiceDbContext>(opt => 
+                opt.UseNpgsql(builder.Configuration.GetConnectionString("Db"))                   
+                   .LogTo(Console.WriteLine)
+                   .EnableSensitiveDataLogging()
+            );
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
             builder.Services.AddTransient<IRequestHandler<GetTskAllQuery, IEnumerable<Tsk>>, GetTskAllQueryHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetTskByIdQuery, Tsk?>, GetTskByIdQueryHandler>();
             builder.Services.AddTransient<IRequestHandler<CreateTskCommand, int>, CreateTskCommandHandler>();
+
+            builder.Services
+               .AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options => {
+                   options.RequireHttpsMetadata = false;
+                   options.SaveToken = true;
+                   var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"] ?? throw new Exception("JWT security key not found"));
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuerSigningKey = true,
+                       IssuerSigningKey = new SymmetricSecurityKey(key),
+                       ValidateIssuer = true,
+                       ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                       ValidateAudience = true,
+                       ValidAudience = builder.Configuration["Jwt:Audience"]
+                   };
+               }
+           );
 
             var app = builder.Build();
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<ServiceDbContext>();
             context?.Database.Migrate();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+           
             app.UseAuthorization();
-
 
             app.MapControllers();
 

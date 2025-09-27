@@ -4,9 +4,9 @@ using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Queries
 {
-    public record GetTaskByIdQuery(Guid Id) : IRequest<Tsk?>;
+    public record GetTskByIdQuery(int Id) : IRequest<Tsk?>;
 
-    public class GetTskByIdQueryHandler : IRequestHandler<GetTaskByIdQuery, Tsk?>
+    public class GetTskByIdQueryHandler : IRequestHandler<GetTskByIdQuery, Tsk?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -15,10 +15,9 @@ namespace TaskTracker.Application.Tasks.Queries
             _unitOfWork = unitOfWork;
         }
 
-
-        public Task<Tsk?> Handle(GetTaskByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Tsk?> Handle(GetTskByIdQuery request, CancellationToken cancellationToken)
         {
-            return _unitOfWork.Tsk.GetByIdAsync(request.Id);
+            return await _unitOfWork.Tsk.GetByIdAsync(request.Id);
         }
     }      
 }
