@@ -56,6 +56,7 @@ namespace TaskTracker.API
             builder.Services.AddTransient<IRequestHandler<GetTskAllQuery, IEnumerable<Tsk>>, GetTskAllQueryHandler>();
             builder.Services.AddTransient<IRequestHandler<GetTskByIdQuery, Tsk?>, GetTskByIdQueryHandler>();
             builder.Services.AddTransient<IRequestHandler<CreateTskCommand, int>, CreateTskCommandHandler>();
+            builder.Services.AddTransient<IRequestHandler<DeleteTskCommand, bool>, DeleteTskCommandHandler>();
 
             builder.Services
                .AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)

@@ -15,14 +15,9 @@ namespace TaskTracker.Domain.Entities
 
         public StatusIdEnum StatusId { get; set; } = StatusIdEnum.New;
 
-        public PriorityIdEnum PriorityId { get; set; } = PriorityIdEnum.Medium;
+        public PriorityIdEnum PriorityId { get; set; } = PriorityIdEnum.Low;
 
         public virtual ICollection<Tsk> SubTasks { get; set; } = new List<Tsk>();
         public virtual ICollection<TskRelationship> RelatedTasks { get; set; } = new List<TskRelationship>();
-
-        public Tsk()
-        { 
-
-        }
     }
 }

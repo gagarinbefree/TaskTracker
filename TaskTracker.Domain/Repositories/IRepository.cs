@@ -13,5 +13,6 @@ namespace TaskTracker.Domain.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task AddAsync(TEntity entity);
         void Remove(TEntity entity);
+        Task<bool> RemoveByIdAsync(int id);
     }
 }

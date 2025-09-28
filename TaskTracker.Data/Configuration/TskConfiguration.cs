@@ -25,7 +25,7 @@ namespace TaskTracker.Data.Configuration
                 .WithOne()
                 .HasForeignKey(f => f.ParentTaskId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(f => f.RelatedTasks)
                 .WithOne(f => f.SourceTask)

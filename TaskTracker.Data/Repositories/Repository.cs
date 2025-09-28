@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskTracker.Domain.Repositories;
 
 namespace TaskTracker.Data.Repositories
@@ -35,6 +30,17 @@ namespace TaskTracker.Data.Repositories
         public void Remove(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
+        }
+
+        public async Task<bool> RemoveByIdAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            if (entity == null)
+                return false;
+
+            Remove(entity);
+
+            return true;
         }
     }
 }
