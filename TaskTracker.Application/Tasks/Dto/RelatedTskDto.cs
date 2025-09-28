@@ -10,6 +10,6 @@ namespace TaskTracker.Application.Tasks.Dto
     public class RelatedTskDto
     {
         public Guid TaskId { get; set; }
-        public RelationshipType Type { get; set; }
+        public RelationshipTypeIdEnum Type { get; set; }
     }
 }

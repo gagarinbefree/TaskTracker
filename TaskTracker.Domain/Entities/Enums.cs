@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace TaskTracker.Domain.Entities
 {
-    public enum TskStatus
+    public enum StatusIdEnum
     {
-        New,
-        InProgress,
-        Done
+        New = 1,
+        InProgress = 2,
+        Done = 3
     }
 
-    public enum TskPriority
+    public enum PriorityIdEnum
     {
-        Low,
-        Medium,
-        High
+        Low = 1,
+        Medium = 2,
+        High = 3
     }
 
-    public enum RelationshipType
+    public enum RelationshipTypeIdEnum
     {
-        RelatedTo
+        RelatedTo = 1
     }
 }

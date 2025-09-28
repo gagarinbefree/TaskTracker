@@ -13,8 +13,8 @@ namespace TaskTracker.Application.Tasks.Dto
         public Guid? ParentTaskId { get; set; } = null;
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public TskStatus Status { get; set; }
-        public TskPriority Priority { get; set; }
+        public StatusIdEnum Status { get; set; }
+        public PriorityIdEnum Priority { get; set; }
         public DateTime CreatedAt { get; set; }
 
         public List<TskDto> SubTasks { get; set; } = new();

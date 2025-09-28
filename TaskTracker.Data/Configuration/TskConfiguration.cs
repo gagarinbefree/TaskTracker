@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Data.Configuration
@@ -36,6 +31,12 @@ namespace TaskTracker.Data.Configuration
                 .WithOne(f => f.SourceTask)
                 .HasForeignKey(f => f.SourceTaskId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(f => f.StatusId)
+                .HasConversion<int>();
+
+            builder.Property(f => f.PriorityId)
+                .HasConversion<int>();
         }
     }
 }

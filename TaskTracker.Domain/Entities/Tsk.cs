@@ -10,13 +10,19 @@ namespace TaskTracker.Domain.Entities
     {
         public int? ParentTaskId { get; set; } = null;
         public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public TskStatus Status { get; set; } = TskStatus.New;
-        public TskPriority Priority { get; set; } = TskPriority.Medium;
+        public string Description { get; set; } = string.Empty;        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation properties
+        public StatusIdEnum StatusId { get; set; } = StatusIdEnum.New;
+
+        public PriorityIdEnum PriorityId { get; set; } = PriorityIdEnum.Medium;
+
         public virtual ICollection<Tsk> SubTasks { get; set; } = new List<Tsk>();
         public virtual ICollection<TskRelationship> RelatedTasks { get; set; } = new List<TskRelationship>();
+
+        public Tsk()
+        { 
+
+        }
     }
 }

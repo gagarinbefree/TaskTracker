@@ -18,11 +18,12 @@ namespace TaskTracker.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder
-                .ApplyConfiguration(new TskConfiguration());
-
-            builder
-                .ApplyConfiguration(new TskRelationshipConfiguration());            
+            builder.ApplyConfiguration(new StatusConfiguration());
+            builder.ApplyConfiguration(new PriorityConfiguration());
+            builder.ApplyConfiguration(new RelationshipTypeConfiguration());
+            builder.ApplyConfiguration(new TskConfiguration());
+            builder.ApplyConfiguration(new TskRelationshipConfiguration());            
         }
     }
 }
+

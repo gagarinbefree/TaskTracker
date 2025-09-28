@@ -10,7 +10,8 @@ namespace TaskTracker.Domain.Entities
     {
         public int SourceTaskId { get; set; }
         public int TargetTaskId { get; set; }
-        public RelationshipType Type { get; set; } = RelationshipType.RelatedTo;
+
+        public RelationshipTypeIdEnum TypeId { get; set; } = RelationshipTypeIdEnum.RelatedTo;
 
         public virtual Tsk? SourceTask { get; set; } = null;
         public virtual Tsk? TargetTask { get; set; } = null;

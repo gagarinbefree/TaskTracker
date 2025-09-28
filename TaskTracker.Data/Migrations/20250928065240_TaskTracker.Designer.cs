@@ -12,8 +12,8 @@ using TaskTracker.Data;
 namespace TaskTracker.Data.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20250924165005_TaskManager")]
-    partial class TaskManager
+    [Migration("20250928065240_TaskTracker")]
+    partial class TaskTracker
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,98 @@ namespace TaskTracker.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("TaskTracker.Domain.Entities.Priority", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Priority");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Low"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Medium"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "High"
+                        });
+                });
+
+            modelBuilder.Entity("TaskTracker.Domain.Entities.RelationshipType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RelationshipType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "RelatedTo"
+                        });
+                });
+
+            modelBuilder.Entity("TaskTracker.Domain.Entities.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Status");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "New"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "InProgress"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Done"
+                        });
+                });
 
             modelBuilder.Entity("TaskTracker.Domain.Entities.Tsk", b =>
                 {
@@ -43,10 +135,10 @@ namespace TaskTracker.Data.Migrations
                     b.Property<int?>("ParentTaskId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Priority")
+                    b.Property<int>("PriorityId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Status")
+                    b.Property<int>("StatusId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -75,7 +167,7 @@ namespace TaskTracker.Data.Migrations
                     b.Property<int>("TargetTaskId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("TypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
