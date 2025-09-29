@@ -12,7 +12,7 @@ Backend-часть простой системы управления задач
 
 БД:
 - EF Core.
-- MSSQL или PostgreSQL (на выбор).
+- PostgreSQL
 - Миграции через EF Core (Code First).
 
 Технические требования:
