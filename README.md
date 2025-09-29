@@ -22,7 +22,7 @@ Backend-часть простой системы управления задач
 - MediatR CQRS
 - Swagger для документации API.
 - Логирование.
-- Желательно docker-compose для запуска.
+- docker-compose для запуска.
 
 Запуск:   
   docker-compose up -d   
