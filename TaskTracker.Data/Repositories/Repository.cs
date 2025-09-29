@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TaskTracker.Domain.Repositories;
 
 namespace TaskTracker.Data.Repositories
@@ -17,9 +18,19 @@ namespace TaskTracker.Data.Repositories
             return await _context.Set<TEntity>().ToListAsync();
         }
 
+        public async Task<IEnumerable<TEntity>> GetAllIncludeAsync(Expression<Func<TEntity, object>> include)
+        {
+            return await _context.Set<TEntity>().Include(include).ToListAsync();
+        }
+
         public async Task<TEntity?> GetByIdAsync(int id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
+        }
+
+        public async Task<TEntity?> GetByExpressionIncludeAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> include)
+        {
+            return await _context.Set<TEntity>().Include(include).FirstOrDefaultAsync(expression);
         }
 
         public async Task AddAsync(TEntity entity)

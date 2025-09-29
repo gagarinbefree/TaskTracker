@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskTracker.API.LogAttributes;
 using TaskTracker.Application.Tasks.Commands;
+using TaskTracker.Application.Tasks.Dto;
 using TaskTracker.Application.Tasks.Queries;
 using TaskTracker.Domain.Entities;
 
@@ -11,6 +13,8 @@ namespace TaskTracker.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [LogAction]
+    [LogException]
     public class TskRelationshipController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -21,17 +25,17 @@ namespace TaskTracker.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TskRelationship[]>> Get([FromQuery] GetTskRelationshipAllQuery request, CancellationToken token)
+        public async Task<ActionResult<TskRelationshipDto[]>> Get([FromQuery] GetTskRelationshipAllQuery request, CancellationToken token)
         {
-            IEnumerable<TskRelationship> result = await _mediator.Send(request, token);
+            var result = await _mediator.Send(request, token);
 
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TskRelationship[]>> Get([FromQuery] GetTskRelationshipByIdQuery request, CancellationToken token)
+        public async Task<ActionResult<TskRelationshipDto[]>> Get([FromQuery] GetTskRelationshipByIdQuery request, CancellationToken token)
         {
-            TskRelationship? result = await _mediator.Send(request, token);
+            var result = await _mediator.Send(request, token);
 
             return result != null ? Ok(result) : NotFound(request);
         }
@@ -39,7 +43,7 @@ namespace TaskTracker.API.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromBody] CreateTskRelationshipCommand request, CancellationToken token)
         {
-            TskRelationship result = await _mediator.Send(request, token);
+            var result = await _mediator.Send(request, token);
 
             return Ok(result);
         }

@@ -1,16 +1,18 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using TaskTracker.Application.Tasks.Dto;
 using TaskTracker.Domain;
 using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Commands
 {
-    public record UpdateTskCommand : IRequest<Tsk?>
+    public record UpdateTskCommand : IRequest<TskDto?>
     {
         public int Id { get; set; }
         public string? Title { get; init; } = null;
@@ -20,7 +22,7 @@ namespace TaskTracker.Application.Tasks.Commands
         public StatusIdEnum? StatusId { get; init; } = null;
     }
 
-    public class UpdateTskCommandHandler : IRequestHandler<UpdateTskCommand, Tsk?>
+    public class UpdateTskCommandHandler : IRequestHandler<UpdateTskCommand, TskDto?>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -29,7 +31,7 @@ namespace TaskTracker.Application.Tasks.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Tsk?> Handle(UpdateTskCommand request, CancellationToken cancellationToken)
+        public async Task<TskDto?> Handle(UpdateTskCommand request, CancellationToken cancellationToken)
         {
             Tsk? tsk = await _unitOfWork.Tsk.GetByIdAsync(request.Id);
             if (tsk == null)
@@ -43,7 +45,7 @@ namespace TaskTracker.Application.Tasks.Commands
 
             await _unitOfWork.CommitAsync();
 
-            return tsk;
+            return tsk.Adapt<TskDto>();
         }
     }
 }

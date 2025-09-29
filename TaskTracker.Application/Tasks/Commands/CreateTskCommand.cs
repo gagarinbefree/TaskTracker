@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Commands
 {
-    public record CreateTskCommand : IRequest<Tsk>
+    public record CreateTskCommand : IRequest<TskDto>
     {
         public string Title { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
@@ -19,7 +20,7 @@ namespace TaskTracker.Application.Tasks.Commands
         public StatusIdEnum StatusId { get; init; }
     }
 
-    public class CreateTskCommandHandler : IRequestHandler<CreateTskCommand, Tsk>
+    public class CreateTskCommandHandler : IRequestHandler<CreateTskCommand, TskDto>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,7 +29,7 @@ namespace TaskTracker.Application.Tasks.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Tsk> Handle(CreateTskCommand request, CancellationToken cancellationToken)
+        public async Task<TskDto> Handle(CreateTskCommand request, CancellationToken cancellationToken)
         {
             var tsk = new Tsk();
             tsk.Title = request.Title;
@@ -40,7 +41,7 @@ namespace TaskTracker.Application.Tasks.Commands
             await _unitOfWork.Tsk.AddAsync(tsk);
             await _unitOfWork.CommitAsync();
 
-            return tsk;
+            return tsk.Adapt<TskDto>();
         }
     }
 }

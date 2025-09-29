@@ -14,5 +14,7 @@ namespace TaskTracker.Domain.Repositories
         Task AddAsync(TEntity entity);
         void Remove(TEntity entity);
         Task<bool> RemoveByIdAsync(int id);
+        Task<IEnumerable<TEntity>> GetAllIncludeAsync(Expression<Func<TEntity, object>> include);
+        Task<TEntity?> GetByExpressionIncludeAsync(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, object>> include);
     }
 }

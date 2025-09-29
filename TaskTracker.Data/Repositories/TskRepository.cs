@@ -13,6 +13,7 @@ namespace TaskTracker.Data.Repositories
         public TskRepository(ServiceDbContext context)
            : base(context)
         { 
+
         }        
     }
 }

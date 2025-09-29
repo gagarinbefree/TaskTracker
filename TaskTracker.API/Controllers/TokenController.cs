@@ -5,11 +5,14 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TaskTracker.API.LogAttributes;
 
 namespace TaskTracker.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [LogAction]
+    [LogException]
     public class TokenController : ControllerBase
     {
         private readonly IConfiguration _configuration;

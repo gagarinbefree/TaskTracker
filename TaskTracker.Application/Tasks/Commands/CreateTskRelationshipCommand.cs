@@ -1,22 +1,24 @@
-﻿using MediatR;
+﻿using Mapster;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskTracker.Application.Tasks.Dto;
 using TaskTracker.Domain;
 using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Commands
 {
-    public record CreateTskRelationshipCommand : IRequest<TskRelationship>
+    public record CreateTskRelationshipCommand : IRequest<TskRelationshipDto>
     {
         public int SourceTaskId { get; init; }
         public int TargetTaskId { get; init; }
         public RelationshipTypeIdEnum TypeId { get; set; }
     }
 
-    public class CreateTskRelationshipCommandHandler : IRequestHandler<CreateTskRelationshipCommand, TskRelationship>
+    public class CreateTskRelationshipCommandHandler : IRequestHandler<CreateTskRelationshipCommand, TskRelationshipDto>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -25,7 +27,7 @@ namespace TaskTracker.Application.Tasks.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<TskRelationship> Handle(CreateTskRelationshipCommand request, CancellationToken cancellationToken)
+        public async Task<TskRelationshipDto> Handle(CreateTskRelationshipCommand request, CancellationToken cancellationToken)
         {
             var relationship = new TskRelationship();
             relationship.SourceTaskId = request.SourceTaskId;
@@ -35,7 +37,7 @@ namespace TaskTracker.Application.Tasks.Commands
             await _unitOfWork.TskRelationship.AddAsync(relationship);
             await _unitOfWork.CommitAsync();
 
-            return relationship;
+            return relationship.Adapt<TskRelationshipDto>();
         }
     }
 }
