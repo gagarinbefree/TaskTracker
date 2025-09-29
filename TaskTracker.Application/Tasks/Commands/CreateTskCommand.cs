@@ -10,16 +10,16 @@ using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Commands
 {
-    public record CreateTskCommand : IRequest<int>
+    public record CreateTskCommand : IRequest<Tsk>
     {
         public string Title { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
         public int? ParentTaskId { get; init; } = null;
-        public PriorityIdEnum? PriorityId { get; init; } = null;
-        public StatusIdEnum? StatusId { get; init; } = null;
+        public PriorityIdEnum PriorityId { get; init; }
+        public StatusIdEnum StatusId { get; init; }
     }
 
-    public class CreateTskCommandHandler : IRequestHandler<CreateTskCommand, int>
+    public class CreateTskCommandHandler : IRequestHandler<CreateTskCommand, Tsk>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,21 +28,19 @@ namespace TaskTracker.Application.Tasks.Commands
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<int> Handle(CreateTskCommand request, CancellationToken cancellationToken)
+        public async Task<Tsk> Handle(CreateTskCommand request, CancellationToken cancellationToken)
         {
-            Tsk tsk = new Tsk();
+            var tsk = new Tsk();
             tsk.Title = request.Title;
             tsk.Description = request.Description;
-            if (request.StatusId != null)
-                tsk.StatusId = (StatusIdEnum)request.StatusId;
-            if (request.PriorityId != null)
-                tsk.PriorityId = (PriorityIdEnum)request.PriorityId;
+            tsk.StatusId = request.StatusId;
+            tsk.PriorityId = request.PriorityId;
             tsk.ParentTaskId = request.ParentTaskId;
 
             await _unitOfWork.Tsk.AddAsync(tsk);
             await _unitOfWork.CommitAsync();
 
-            return tsk.Id;
+            return tsk;
         }
     }
 }

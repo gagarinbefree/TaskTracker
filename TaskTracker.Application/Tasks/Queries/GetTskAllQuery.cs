@@ -5,8 +5,7 @@ using TaskTracker.Domain.Entities;
 
 namespace TaskTracker.Application.Tasks.Queries
 {
-    public class GetTskAllQuery : IRequest<IEnumerable<Tsk>>
-    { }
+    public record GetTskAllQuery : IRequest<IEnumerable<Tsk>>;
 
     public class GetTskAllQueryHandler : IRequestHandler<GetTskAllQuery, IEnumerable<Tsk>>
     {

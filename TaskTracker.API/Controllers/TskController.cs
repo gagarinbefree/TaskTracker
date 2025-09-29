@@ -38,17 +38,25 @@ namespace TaskTracker.API.Controllers
         [HttpPost]
         public async Task<ActionResult<int>> Post([FromBody] CreateTskCommand request, CancellationToken token)
         {
-            int id = await _mediator.Send(request, token);
+            Tsk result = await _mediator.Send(request, token);
 
-            return Ok(id);
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Tsk>> Put([FromBody] UpdateTskCommand request, CancellationToken token)
+        {
+            Tsk? result = await _mediator.Send(request, token);
+
+            return result != null ? Ok(result) : NotFound(request);
         }
 
         [HttpDelete]
         public async Task<ActionResult> Delete([FromQuery] DeleteTskCommand request, CancellationToken token)
         {
-            await _mediator.Send(request, token);
+            bool result = await _mediator.Send(request, token);
 
-            return NoContent();
+            return result ? NoContent() : NotFound(request);
         }
     }
 }

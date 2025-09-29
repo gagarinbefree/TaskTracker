@@ -181,7 +181,7 @@ namespace TaskTracker.Data.Migrations
                     b.HasOne("TaskTracker.Domain.Entities.Tsk", null)
                         .WithMany("SubTasks")
                         .HasForeignKey("ParentTaskId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("TaskTracker.Domain.Entities.TskRelationship", b =>

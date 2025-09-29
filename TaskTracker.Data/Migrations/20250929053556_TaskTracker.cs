@@ -74,7 +74,7 @@ namespace TaskTracker.Data.Migrations
                         column: x => x.ParentTaskId,
                         principalTable: "Tsk",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(

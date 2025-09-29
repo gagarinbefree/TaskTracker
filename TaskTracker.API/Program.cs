@@ -55,8 +55,13 @@ namespace TaskTracker.API
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
             builder.Services.AddTransient<IRequestHandler<GetTskAllQuery, IEnumerable<Tsk>>, GetTskAllQueryHandler>();
             builder.Services.AddTransient<IRequestHandler<GetTskByIdQuery, Tsk?>, GetTskByIdQueryHandler>();
-            builder.Services.AddTransient<IRequestHandler<CreateTskCommand, int>, CreateTskCommandHandler>();
+            builder.Services.AddTransient<IRequestHandler<CreateTskCommand, Tsk>, CreateTskCommandHandler>();
             builder.Services.AddTransient<IRequestHandler<DeleteTskCommand, bool>, DeleteTskCommandHandler>();
+            builder.Services.AddTransient<IRequestHandler<UpdateTskCommand, Tsk?>, UpdateTskCommandHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetTskRelationshipAllQuery, IEnumerable<TskRelationship>>, GetTskRelationshipAllQueryHandler>();
+            builder.Services.AddTransient<IRequestHandler<GetTskRelationshipByIdQuery, TskRelationship?>, GetTskRelationshipByIdQueryHandler>();
+            builder.Services.AddTransient<IRequestHandler<CreateTskRelationshipCommand, TskRelationship>, CreateTskRelationshipCommandHandler>();
+            builder.Services.AddTransient<IRequestHandler<DeleteTskRelationshipCommand, bool>, DeleteTskRelationshipCommandHandler>();            
 
             builder.Services
                .AddAuthentication(options => options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme)

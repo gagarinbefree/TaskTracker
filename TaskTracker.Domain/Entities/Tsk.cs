@@ -12,9 +12,7 @@ namespace TaskTracker.Domain.Entities
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;        
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
         public StatusIdEnum StatusId { get; set; } = StatusIdEnum.New;
-
         public PriorityIdEnum PriorityId { get; set; } = PriorityIdEnum.Low;
 
         public virtual ICollection<Tsk> SubTasks { get; set; } = new List<Tsk>();

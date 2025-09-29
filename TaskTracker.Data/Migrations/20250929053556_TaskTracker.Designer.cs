@@ -12,7 +12,7 @@ using TaskTracker.Data;
 namespace TaskTracker.Data.Migrations
 {
     [DbContext(typeof(ServiceDbContext))]
-    [Migration("20250928065240_TaskTracker")]
+    [Migration("20250929053556_TaskTracker")]
     partial class TaskTracker
     {
         /// <inheritdoc />
@@ -184,7 +184,7 @@ namespace TaskTracker.Data.Migrations
                     b.HasOne("TaskTracker.Domain.Entities.Tsk", null)
                         .WithMany("SubTasks")
                         .HasForeignKey("ParentTaskId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("TaskTracker.Domain.Entities.TskRelationship", b =>
