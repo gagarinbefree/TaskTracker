@@ -17,6 +17,7 @@ Backend-часть простой системы управления задач
 
 Технические требования:
 
+- Onion архитектура
 - .NET 8, ASP.NET Core.
 - Dependency Injection.
 - MediatR CQRS
