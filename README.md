@@ -23,3 +23,8 @@
 - Swagger для документации API.
 - Логирование (можно стандартное).
 - Желательно docker-compose для запуска.
+
+Запуск:
+  docker-compose up -d
+  http://localhost:8080/
+  или http://localhost:8080/swagger/index.html
