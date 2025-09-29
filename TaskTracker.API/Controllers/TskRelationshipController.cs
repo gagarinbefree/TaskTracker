@@ -33,7 +33,7 @@ namespace TaskTracker.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<TskRelationshipDto[]>> Get([FromQuery] GetTskRelationshipByIdQuery request, CancellationToken token)
+        public async Task<ActionResult<TskRelationshipDto>> Get([FromQuery] GetTskRelationshipByIdQuery request, CancellationToken token)
         {
             var result = await _mediator.Send(request, token);
 

@@ -128,6 +128,9 @@ namespace TaskTracker.API
 
             app.MapControllers();
 
+            app.MapGet("/", () => Results.Redirect("/swagger/index.html"))
+                .ExcludeFromDescription();
+
             app.Run();
         }
     }
