@@ -1,4 +1,4 @@
-Реализуйте backend-часть простой системы управления задачами (аналог Jira).
+Реализуйте backend-часть простой системы управления задачами (аналог Jira).   
 Основные требования:
 
 Задачи:
@@ -24,7 +24,7 @@
 - Логирование (можно стандартное).
 - Желательно docker-compose для запуска.
 
-Запуск:
-  docker-compose up -d
-  http://localhost:8080/
-  или http://localhost:8080/swagger/index.html
+Запуск:   
+  docker-compose up -d   
+  http://localhost:8080/   
+  или http://localhost:8080/swagger/index.html   
